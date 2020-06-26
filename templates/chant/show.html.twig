@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chant{% endblock %}
+
+{% block body %}
+    <h1>Chant</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ chant.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ chant.Titre }}</td>
+            </tr>
+            <tr>
+                <th>Parole</th>
+                <td>{{ chant.Parole|nl2br }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('chant_index') }}">back to list</a>
+
+    <a href="{{ path('chant_edit', {'id': chant.id}) }}">edit</a>
+
+    {{ include('chant/_delete_form.html.twig') }}
+{% endblock %}

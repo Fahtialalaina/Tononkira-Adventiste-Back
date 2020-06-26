@@ -1,0 +1,9 @@
+{{ form_start(form) }}
+    {{ form_widget(form.Titre) }}
+    {{ form_widget(form.Parole, { 'attr': { 
+        'style' : 'width:525px', 
+        'rows' : '4', 
+        'cols' : '30' }} ) }}
+    {{ form_widget(form.Artiste) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
