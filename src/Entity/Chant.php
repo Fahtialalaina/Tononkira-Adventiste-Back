@@ -3,8 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(
+ *     normalizationContext={"groups"={"chant:read"}},
+ *     denormalizationContext={"groups"={"chant:write"}}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\ChantRepository")
  */
 class Chant
@@ -13,22 +19,26 @@ class Chant
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"chant:read", "artiste:read"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Artiste", inversedBy="Chants")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("chant:write")
      */
     private $Artiste;
 
     /**
      * @ORM\Column(type="string", length=60)
+     * @Groups({"chant:read", "chant:write", "artiste:read"})
      */
     private $Titre;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"chant:read", "chant:write", "artiste:read"})
      */
     private $Parole;
 

@@ -5,6 +5,7 @@
         "php": "^7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "api-platform/api-pack": "^1.2",
         "hwi/oauth-bundle": "dev-master#b042ddd",
         "php-http/guzzle6-adapter": "^2.0",
         "php-http/httplug-bundle": "^1.17",
