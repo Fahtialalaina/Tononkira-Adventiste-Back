@@ -20,3 +20,8 @@ auth0_login:
 
 auth0_logout:
   path: /auth0/logout
+
+# config/routes.yaml
+authentication_token:
+    path: /api/login
+    methods: ['POST']
