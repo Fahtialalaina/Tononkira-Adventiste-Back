@@ -51,3 +51,5 @@ php bin/console server:run
 
 - 🏠 [Auth0 Blog](https://auth0.com/blog)
 - 🚀 [Symfony](https://symfony.com/)
+- 🚀 [Tuto ApiPlatform](https://www.kaherecode.com/tag/api-platform)
+
