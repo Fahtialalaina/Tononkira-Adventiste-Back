@@ -1,63 +1,61 @@
 <?php
-// src/DataPersister/UserDataPersister.php
 
 namespace App\DataPersister;
 
+use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- *
+ * Class UserDataPersister.
  */
-class UserDataPersister implements ContextAwareDataPersisterInterface
+class UserDataPersister implements DataPersisterInterface
 {
-    private $_entityManager;
-    private $_passwordEncoder;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        UserPasswordEncoderInterface $passwordEncoder
-    ) {
-        $this->_entityManager = $entityManager;
-        $this->_passwordEncoder = $passwordEncoder;
+    private UserPasswordEncoderInterface $encoder;
+
+    /**
+     * UserDataPersister constructor.
+     *
+     * @param EntityManagerInterface       $entityManager
+     * @param UserPasswordEncoderInterface $userPasswordEncoder
+     */
+    public function __construct(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $userPasswordEncoder)
+    {
+        $this->entityManager = $entityManager;
+        $this->encoder = $userPasswordEncoder;
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function supports($data, array $context = []): bool
+    public function supports($data): bool
     {
         return $data instanceof User;
     }
 
     /**
-     * @param User $data
+     * @inheritDoc
      */
-    public function persist($data, array $context = [])
+    public function persist($data)
     {
-        if ($data->getPlainPassword()) {
-            $data->setPassword(
-                $this->_passwordEncoder->encodePassword(
-                    $data,
-                    $data->getPlainPassword()
-                )
-            );
-
+        if ($data instanceof User && $data->getPlainPassword()) {
+            $data->setPassword($this->encoder->encodePassword($data, $data->getPlainPassword()));
             $data->eraseCredentials();
         }
 
-        $this->_entityManager->persist($data);
-        $this->_entityManager->flush();
+        $this->entityManager->persist($data);
+        $this->entityManager->flush();
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function remove($data, array $context = [])
+    public function remove($data)
     {
-        $this->_entityManager->remove($data);
-        $this->_entityManager->flush();
+        $this->entityManager->remove($data);
+        $this->entityManager->flush();
     }
 }
